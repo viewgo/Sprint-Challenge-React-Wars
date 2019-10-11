@@ -4,12 +4,12 @@ import styled from "styled-components";
 import axios from "axios";
 
 const Card = styled.div`
-background-color: #000000
-color: white;
+background-color: #482818;
+color: #CECBC6;
   margin: 10px;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0 1px 6px -2px #000;
+  box-shadow: 0 1px 12px -2px #000;
   width: 90%;
   text-align: center;
 `;
@@ -27,15 +27,15 @@ const Info = styled.div`
 `;
 
 const InfoAlt = styled(Info)`
-  background-color: gray;
-`
+  background-color: #753f24;
+`;
 
 const FilmList = styled.div`
-width: 80%;
-display: flex;
-flex-direction: column;
-align-items: flex-end;
-`
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
 
 const CharacterCard = props => {
   const char = props.data;
@@ -83,36 +83,35 @@ const CharacterCard = props => {
       });
   }, []);
 
-
   if (!films) {
     return <Card>Loading</Card>;
   } else {
     return (
       <Card>
         <h2>{props.data.name}</h2>
-        <Info>
+        <InfoAlt>
           <p>Birthyear: </p>
           <p>{char.birth_year}</p>
-        </Info>
+        </InfoAlt>
 
         <Info>
           <p>Homeworld: </p>
           <p>{homeworld}</p>
         </Info>
 
-        <Info>
+        <InfoAlt>
           <p>Species: </p>
           <p>{species}</p>
-        </Info>
+        </InfoAlt>
 
         <Info>
           <p>Films: </p>
 
-        <FilmList>
-          {films.map((element, index) => (
-                <Film title={element} key={index}/>
-        ))}
-        </FilmList>
+          <FilmList>
+            {films.map((element, index) => (
+              <Film title={element} key={index} />
+            ))}
+          </FilmList>
         </Info>
       </Card>
     );

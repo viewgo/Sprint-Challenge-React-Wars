@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import CharacterList from "./components/CharacterList";
+import ListButtons from "./components/ListButtons";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -18,11 +19,12 @@ const App = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     width: 100%;
   `;
 
   const [data, setData] = useState();
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     console.log("hello");
@@ -37,11 +39,64 @@ const App = () => {
       });
   }, []);
 
+  useEffect(() => {
+    console.log("hello");
+    axios
+      .get(`https://swapi.co/api/people/?page=${page}`)
+      .then(response => {
+        // console.log(response.data);
+        setData(response.data);
+      })
+      .catch(e => {
+        console.log("Error: " + e);
+      });
+  }, [page]);
+
+  const onClick = button => {
+    if (button === "Next") {
+      //next set of data
+      console.log("Next button clicked");
+
+      if (page < 9) {
+        setPage(page => page + 1);
+      }
+    } else if (button === "Previous") {
+      //previous data
+      console.log("Previous button clicked");
+
+      if (page > 1) {
+        setPage(page => page - 1);
+      }
+    }
+
+    // //NOT WORKING
+    // if (calc === "error") {
+    //   console.log("error before click");
+    //   setCalc("");
+    // }
+
+    // if (button === "=") {
+    //   calculate();
+    // } else if (button === "+/-") {
+    //   if (calc.charAt(0) === "-") {
+    //     setCalc(calc.substr(1));
+    //   } else {
+    //     setCalc("-" + calc);
+    //   }
+    // } else if (button === "C") {
+    //   reset();
+    // }
+    // else {
+    //   setCalc(calc + button);
+    // }
+  };
+
   // console.log(data);
   return (
     <Container>
       <App>
         <h1 className="Header">React Wars</h1>
+        <ListButtons onClick={onClick} />
         <CharacterList data={data} />
       </App>
     </Container>
